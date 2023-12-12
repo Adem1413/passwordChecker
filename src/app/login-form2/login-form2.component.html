@@ -1,0 +1,68 @@
+
+<div class="wrapper">
+    <div class="title-text" #titleRef >
+      <div class="title login">Password analyzer</div>
+    
+    </div>
+    <div class="form-container">
+      
+      
+      <div class="form-inner" #loginRef>
+        
+        <form  #mySignupForm="ngForm"  (ngSubmit)="onSubmit(mySignupForm)" action="#" class="signup" [appMatchPassword]="['password', 'passwordConfirm']">
+          <div class="field">
+            <input type="text" placeholder="Username" required [(ngModel)]="signupObj.userName" name="name">
+          </div>
+         <div>
+          <div class="field">
+            <input #password="ngModel"  type="password" placeholder="Password" (input)="onPasswordInput()" required [(ngModel)]="signupObj.password" name="password">
+          </div>
+
+
+          <div *ngIf="passwordStrength === 'strong'" class="strong-message">
+            Strong Password.
+          </div>
+          <div *ngIf="passwordStrength === 'medium'" class="medium-message">
+            Medium Password.
+          </div>
+          <div *ngIf="passwordStrength === 'weak'" class="weak-message">
+            Weak Password.
+          </div>
+          <div *ngIf="passwordStrength === 'weak' || passwordStrength === 'medium'">
+            
+            <ul>
+              <li *ngFor="let suggestion of passwordSuggestions">{{ suggestion }}</li>
+            </ul>
+          </div>
+
+        </div>
+        
+          <div class="field btn">
+            <div class="btn-layer"></div>
+            <input  type="submit" value="Test Password" (click)="checkPassword()"  >
+          </div>
+          <br>
+          <div *ngIf="formSubmitted ">
+            <div *ngIf="isPasswordInList; else notInList">
+              {{ signupObj.password }} is in the list
+            </div>
+            <ng-template #notInList>
+              <div>
+                {{ signupObj.password }} is not in the list
+              </div>
+              
+            </ng-template>
+            <br>
+          </div>
+            <div *ngIf="!isPasswordInList">
+              {{checkPasswordEstimate()  }}
+          </div>
+         
+        </form>
+       
+      
+      </div>
+    </div>
+  
+  </div>
+
